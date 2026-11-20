@@ -169,11 +169,11 @@
 
   .step-card h3 {
     margin-top: 18px;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .step-card p {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .provider-cta {
@@ -291,13 +291,13 @@
   }
 
   .admin-overview-stats span {
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .admin-section-tabs button {
     padding-right: 8px;
     padding-left: 8px;
-    font-size: 10px;
+    font-size: 11px;
   }
 }
 
@@ -316,7 +316,7 @@
 
   .eyebrow-glass {
     margin-bottom: 19px;
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .hero h1 {
@@ -328,7 +328,7 @@
   }
 
   .hero-footnote {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .category-grid {
@@ -349,11 +349,11 @@
   }
 
   .category-card-copy strong {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .category-card-copy > span {
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .category-arrow {

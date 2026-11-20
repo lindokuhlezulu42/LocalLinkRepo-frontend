@@ -1,7 +1,7 @@
 .site-footer {
   padding: 55px 32px 0;
   background: #fff;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .site-footer-dark {
@@ -14,7 +14,7 @@
 }
 
 .site-footer-dark .footer-about p {
-  color: #a7b0c0;
+  color: #b8c2d1;
 }
 
 .site-footer-dark .footer-main h3 {
@@ -22,7 +22,7 @@
 }
 
 .site-footer-dark .footer-main > div > a:not(.brand) {
-  color: #a7b0c0;
+  color: #b8c2d1;
 }
 
 .site-footer-dark .footer-main > div > a:hover {
@@ -31,7 +31,7 @@
 
 .site-footer-dark .footer-bottom {
   border-top-color: #273043;
-  color: #a7b0c0;
+  color: #b8c2d1;
 }
 
 .footer-main,
@@ -54,8 +54,8 @@
 .footer-about p {
   max-width: 310px;
   margin: 0;
-  color: #000;
-  font-size: 12px;
+  color: #4f5c70;
+  font-size: 13px;
   line-height: 1.7;
 }
 
@@ -63,7 +63,7 @@
   margin: 5px 0 16px;
   color: #253047;
   font-family: Manrope, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -75,8 +75,9 @@
 }
 
 .footer-main > div > a:not(.brand) {
-  color: #000;
-  font-size: 12px;
+  color: #4f5c70;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .footer-main > div > a:hover {
@@ -89,8 +90,9 @@
   gap: 24px;
   padding: 19px 0;
   border-top: 1px solid #edf0f4;
-  color: #000;
-  font-size: 11px;
+  color: #59667a;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .footer-bottom p {

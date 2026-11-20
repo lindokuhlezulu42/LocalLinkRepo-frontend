@@ -15,8 +15,8 @@
 
 .not-found > p:not(.eyebrow) {
   margin: 10px 0 22px;
-  color: #778193;
-  font-size: 13px;
+  color: #586579;
+  font-size: 14px;
 }
 
 .page-loading {
@@ -25,8 +25,8 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: #798396;
-  font-size: 13px;
+  color: #586579;
+  font-size: 14px;
 }
 
 .spinner {
@@ -54,10 +54,10 @@
   padding: 14px 17px;
   border: 1px solid #d9eee6;
   border-radius: 13px;
-  color: #28664f;
+  color: #20583f;
   background: #f3fbf7;
   box-shadow: var(--shadow);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   animation: toast-in 180ms ease-out;
 }

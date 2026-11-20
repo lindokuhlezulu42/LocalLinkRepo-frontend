@@ -54,23 +54,25 @@
 
 .dashboard-person strong {
   overflow: hidden;
-  color: #273146;
-  font-size: 11px;
+  color: #202b40;
+  font-size: 13px;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .dashboard-person span:not(.avatar) {
-  color: #8993a2;
-  font-size: 9px;
+  color: #626e80;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .sidebar-label {
   margin: 23px 8px 9px;
-  color: #a0a8b5;
-  font-size: 9px;
+  color: #697588;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 
@@ -89,9 +91,9 @@
   padding: 0 10px;
   border: 0;
   border-radius: 10px;
-  color: #707b8d;
+  color: #4f5c70;
   background: transparent;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   text-align: left;
 }
@@ -122,7 +124,8 @@
   border-radius: 10px;
   color: #5146e5;
   background: #e2e0ff;
-  font-size: 9px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .dashboard-signout {
@@ -131,8 +134,8 @@
 
 .sidebar-demo-note {
   margin: 16px 9px 0;
-  color: #a3aab6;
-  font-size: 9px;
+  color: #697588;
+  font-size: 11px;
   line-height: 1.6;
 }
 
@@ -153,15 +156,26 @@
 }
 
 .dashboard-heading h1 {
-  font-size: 28px;
-  letter-spacing: -1px;
+  color: #202b40;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.8px;
+  line-height: 1.2;
+}
+
+.dashboard-heading .eyebrow,
+.panel-heading .eyebrow {
+  color: #5146c8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
 }
 
 .dashboard-heading > div > p:last-child {
   margin: 8px 0 0;
-  color: #778294;
-  font-size: 12px;
-  line-height: 1.55;
+  color: #586579;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .dashboard-stats {
@@ -200,14 +214,18 @@
 }
 
 .dashboard-stat > div > span {
-  color: #7e8898;
-  font-size: 10px;
+  color: #59667a;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .dashboard-stat strong {
-  color: #263147;
+  color: #202b40;
   font-family: Manrope, sans-serif;
-  font-size: 21px;
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.15;
 }
 
 .dashboard-lower-grid {
@@ -233,24 +251,28 @@
 
 .panel-heading .eyebrow {
   margin-bottom: 4px;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .panel-heading h2 {
   margin: 0;
+  color: #202b40;
   font-family: Manrope, sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 800;
+  line-height: 1.35;
 }
 
 .panel-heading .text-link {
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .panel-empty {
   margin: 16px 0;
-  color: #8b95a5;
-  font-size: 11px;
+  color: #586579;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .dashboard-tip {
@@ -266,15 +288,16 @@
 }
 
 .dashboard-tip strong {
-  color: #315d50;
-  font-size: 11px;
+  color: #285746;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .dashboard-tip p {
   margin: 5px 0 0;
-  color: #7a948a;
-  font-size: 10px;
-  line-height: 1.5;
+  color: #4e6d61;
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .dashboard-list {
@@ -318,19 +341,21 @@
 
 .dashboard-listing-copy strong {
   overflow: hidden;
-  color: #2a3448;
-  font-size: 11px;
+  color: #202b40;
+  font-size: 13px;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .dashboard-listing-copy span {
-  color: #8691a0;
-  font-size: 9px;
+  color: #59667a;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .icon-link {
-  color: #909aaa;
+  color: #657185;
 }
 
 .icon-link:hover {
@@ -338,14 +363,25 @@
 }
 
 .listing-edit-link {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid #dcd9ff;
+  border-radius: 8px;
   color: #5146e5;
-  font-size: 10px;
+  background: #f7f6ff;
+  font-size: 12px;
   font-weight: 700;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
 }
 
 .listing-edit-link:hover {
-  text-decoration: underline;
+  border-color: #5146e5;
+  color: #4338ca;
+  background: #efeeff;
 }
 
 .listing-delete-request,
@@ -360,9 +396,9 @@
   padding: 6px 9px;
   border: 1px solid #e5e8ef;
   border-radius: 7px;
-  color: #667286;
+  color: #4f5c70;
   background: #fff;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   text-align: center;
   white-space: nowrap;
@@ -392,15 +428,15 @@
 }
 
 .deletion-request-badge {
-  color: #a83c4a;
-  font-size: 9px;
+  color: #8d2938;
+  font-size: 11px;
   font-weight: 700;
 }
 
 .change-rejection-reason {
   flex: 1 1 100%;
-  color: #a83c4a;
-  font-size: 10px;
+  color: #8d2938;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -408,9 +444,10 @@
   margin: 12px 0 0;
   padding: 10px 12px;
   border-radius: 8px;
-  color: #8d3b46;
+  color: #7c2d39;
   background: #fff1f2;
-  font-size: 11px;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .button-danger {
@@ -457,7 +494,7 @@
   place-items: center;
   border: 0;
   border-radius: 10px;
-  color: #7d8797;
+  color: #5d6879;
   background: #f5f6fa;
 }
 
@@ -492,8 +529,8 @@
 
 .confirmation-dialog .eyebrow {
   margin: 0 0 8px;
-  color: #6258d9;
-  font-size: 10px;
+  color: #5146c8;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -503,15 +540,15 @@
   margin: 0;
   color: #202b40;
   font-family: Manrope, sans-serif;
-  font-size: 21px;
+  font-size: 23px;
   font-weight: 800;
   line-height: 1.35;
 }
 
 .confirmation-dialog > p:not(.eyebrow) {
   margin: 12px 0 24px;
-  color: #6f7a8b;
-  font-size: 13px;
+  color: #586579;
+  font-size: 14px;
   line-height: 1.65;
 }
 
@@ -555,7 +592,7 @@
   }
 
   .confirmation-dialog h2 {
-    font-size: 19px;
+    font-size: 20px;
   }
 
   .confirmation-actions {
@@ -574,25 +611,25 @@
   align-items: center;
   padding: 0 9px;
   border-radius: 15px;
-  color: #667286;
+  color: #4f5c70;
   background: #f0f2f6;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   white-space: nowrap;
 }
 
 .status-approved {
-  color: #218364;
+  color: #17684f;
   background: #e8f7f1;
 }
 
 .status-read {
-  color: #218364;
+  color: #17684f;
   background: #e8f7f1;
 }
 
 .status-unread {
-  color: #a45b12;
+  color: #824300;
   background: #fff3df;
 }
 
@@ -602,12 +639,12 @@
 }
 
 .status-pending {
-  color: #a16c17;
+  color: #80540d;
   background: #fff5e3;
 }
 
 .status-rejected {
-  color: #ae4c58;
+  color: #8d3542;
   background: #fff0f0;
 }
 
@@ -662,30 +699,32 @@
 }
 
 .enquiry-item-heading > strong {
-  color: #2b3549;
-  font-size: 11px;
+  color: #202b40;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .enquiry-provider {
   margin: 3px 0 8px;
-  color: #5e51d9;
-  font-size: 10px;
-  font-weight: 600;
+  color: #493fc0;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .enquiry-message {
   margin: 0 0 9px;
-  color: #6f7a8b;
-  font-size: 11px;
-  line-height: 1.55;
+  color: #4f5c70;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .enquiry-details {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 14px;
-  color: #8b95a3;
-  font-size: 9px;
+  color: #59667a;
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .enquiry-details span {
@@ -703,9 +742,10 @@
   padding: 5px 7px;
   border: 0;
   border-radius: 7px;
-  color: #788396;
+  color: #59667a;
   background: transparent;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .enquiry-hide-button:hover {
@@ -727,9 +767,9 @@
   padding: 0 12px;
   border: 1px solid #e5e8ef;
   border-radius: 18px;
-  color: #778193;
+  color: #4f5c70;
   background: #fff;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -756,14 +796,51 @@
 }
 
 .review-note strong {
-  color: #315d50;
-  font-size: 11px;
+  color: #285746;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .review-note p {
   margin: 4px 0 0;
-  color: #7a948a;
-  font-size: 10px;
+  color: #4e6d61;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.dashboard-content .empty-state h2 {
+  color: #202b40;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.dashboard-content .empty-state p {
+  color: #586579;
+  font-size: 14px;
+}
+
+.dashboard-content .form-field {
+  color: #303d52;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dashboard-content .form-field input,
+.dashboard-content .form-field select,
+.dashboard-content .form-field textarea {
+  color: #263147;
+  font-size: 14px;
+}
+
+.dashboard-content .form-field input::placeholder,
+.dashboard-content .form-field textarea::placeholder {
+  color: #687487;
+}
+
+.dashboard-content .local-demo-note {
+  color: #59667a;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .listing-form {

@@ -1,10 +1,21 @@
 import { useEffect, useState } from 'react'
+import { LuCarFront, LuGraduationCap, LuHouse, LuScissors, LuSparkles, LuSprout, LuWrench, LuZap } from 'react-icons/lu'
 import { ArrowRight, Check, ChevronDown, ChevronRight, MapPin, Search, ShieldCheck } from '../icons.js'
 import { CATEGORIES } from '../data/categories.js'
 import { AppLink } from '../components/common/AppLink.jsx'
-import { CategoryIcon } from '../components/common/CategoryIcon.jsx'
 import { ProviderCard } from '../components/common/ProviderCard.jsx'
 import { Step } from '../components/home/Step.jsx'
+
+const HOME_CATEGORY_ICONS = {
+  Plumbing: LuWrench,
+  Electrical: LuZap,
+  Mechanics: LuCarFront,
+  Tutoring: LuGraduationCap,
+  Cleaning: LuSparkles,
+  Building: LuHouse,
+  Gardening: LuSprout,
+  Beauty: LuScissors,
+}
 
 export function HomePage({ providers, navigate }) {
   const [category, setCategory] = useState('')
@@ -70,13 +81,16 @@ export function HomePage({ providers, navigate }) {
           <AppLink to="/browse" navigate={navigate} className="text-link">See all providers <ArrowRight size={17} /></AppLink>
         </div>
         <div className="category-grid">
-          {CATEGORIES.map(({ name, description, color }) => (
-            <AppLink key={name} to={`/browse?category=${encodeURIComponent(name)}`} navigate={navigate} className="category-card">
-              <span className={`category-icon ${color}`}><CategoryIcon name={name} size={22} /></span>
-              <span className="category-card-copy"><strong>{name}</strong><span>{description}</span></span>
-              <ChevronRight className="category-arrow" size={18} />
-            </AppLink>
-          ))}
+          {CATEGORIES.map(({ name, description, color }) => {
+            const Icon = HOME_CATEGORY_ICONS[name]
+            return (
+              <AppLink key={name} to={`/browse?category=${encodeURIComponent(name)}`} navigate={navigate} className="category-card">
+                <span className={`category-icon ${color}`}><Icon size={22} strokeWidth={2.2} aria-hidden="true" /></span>
+                <span className="category-card-copy"><strong>{name}</strong><span>{description}</span></span>
+                <ChevronRight className="category-arrow" size={18} />
+              </AppLink>
+            )
+          })}
         </div>
       </section>
 

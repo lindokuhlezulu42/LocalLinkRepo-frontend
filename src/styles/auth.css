@@ -46,8 +46,8 @@
 
 .auth-subtitle {
   margin: 8px 0 24px;
-  color: #000;
-  font-size: 12px;
+  color: #586579;
+  font-size: 14px;
   line-height: 1.6;
 }
 
@@ -57,21 +57,21 @@
 
 .auth-switch {
   margin: 20px 0 0;
-  color: #000;
-  font-size: 11px;
+  color: #4f5c70;
+  font-size: 13px;
   text-align: center;
 }
 
 .auth-switch a,
 .forgot-link {
-  color: #000;
+  color: #4338ca;
   font-weight: 700;
 }
 
 .forgot-link {
   align-self: flex-end;
   margin-top: -6px;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .local-demo-note {
@@ -86,8 +86,8 @@
 }
 
 .field-label {
-  color: #364155;
-  font-size: 11px;
+  color: #303d52;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -106,7 +106,7 @@
   padding: 12px;
   border: 1px solid #e4e7ef;
   border-radius: 12px;
-  color: #596477;
+  color: #4f5c70;
   background: #fff;
   text-align: left;
 }
@@ -123,13 +123,13 @@
 }
 
 .role-option strong {
-  color: #263148;
-  font-size: 10px;
+  color: #202b40;
+  font-size: 13px;
 }
 
 .role-option span {
-  color: #000;
-  font-size: 9px;
+  color: #586579;
+  font-size: 12px;
   line-height: 1.4;
 }
 
@@ -138,9 +138,9 @@
   padding: 11px 13px;
   border: 1px solid #f1c8cc;
   border-radius: 11px;
-  color: #a83c4a;
+  color: #8d2938;
   background: #fff5f5;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -151,18 +151,19 @@
   padding: 14px;
   border: 1px solid #cceee0;
   border-radius: 12px;
-  color: #258260;
+  color: #17684f;
   background: #f0fbf6;
 }
 
 .success-panel strong {
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .success-panel p {
   margin: 4px 0 0;
-  color: #688477;
-  font-size: 11px;
+  color: #4e6d61;
+  font-size: 12px;
   line-height: 1.5;
 }
 

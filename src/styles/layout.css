@@ -62,14 +62,14 @@
 
 .main-nav {
   gap: 36px;
-  color: #000;
+  color: #4f5c70;
   font-size: 14px;
   font-weight: 600;
 }
 
 .main-nav > a:not(.button):hover,
 .text-button:hover {
-  color: #000;
+  color: #202b40;
 }
 
 .header-account {
@@ -80,7 +80,7 @@
 .text-button {
   padding: 8px 0;
   border: 0;
-  color: #000;
+  color: #4f5c70;
   background: transparent;
   font-size: 13px;
   font-weight: 600;

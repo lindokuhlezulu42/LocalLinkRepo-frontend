@@ -21,8 +21,8 @@
 .browse-intro-inner > p:not(.eyebrow) {
   max-width: 610px;
   margin: 10px 0 25px;
-  color: #737d8e;
-  font-size: 15px;
+  color: #586579;
+  font-size: 16px;
   line-height: 1.65;
 }
 
@@ -41,7 +41,7 @@
   padding: 0 14px;
   border: 1px solid #e2e6ee;
   border-radius: 25px;
-  color: #8a94a5;
+  color: #687487;
   background: #fafbfc;
 }
 
@@ -57,12 +57,12 @@
   outline: 0;
   color: #303a4d;
   background: transparent;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .area-input input::placeholder,
 .search-results input::placeholder {
-  color: #000;
+  color: #687487;
 }
 
 .area-input button {
@@ -95,8 +95,8 @@
   flex: 0 0 auto;
   align-items: center;
   gap: 7px;
-  color: #000;
-  font-size: 12px;
+  color: #4f5c70;
+  font-size: 13px;
 }
 
 .category-pills {
@@ -115,7 +115,7 @@
   border-radius: 21px;
   color: #354052;
   background: #fff;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -137,9 +137,9 @@
   gap: 5px;
   padding: 6px;
   border: 0;
-  color: #707b8b;
+  color: #59667a;
   background: transparent;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .results-topline {
@@ -152,12 +152,12 @@
 
 .results-topline p {
   margin: 0;
-  color: #000;
-  font-size: 13px;
+  color: #4f5c70;
+  font-size: 14px;
 }
 
 .results-topline strong {
-  color: #323c4e;
+  color: #202b40;
 }
 
 .search-results {
@@ -168,7 +168,7 @@
 }
 
 .search-results input {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .browse-grid {
@@ -198,15 +198,17 @@
 
 .empty-state h2 {
   margin: 0 0 7px;
+  color: #202b40;
   font-family: Manrope, sans-serif;
-  font-size: 19px;
+  font-size: 21px;
+  font-weight: 800;
   letter-spacing: -0.5px;
 }
 
 .empty-state p {
   max-width: 430px;
   margin: 0 0 19px;
-  color: #778193;
-  font-size: 13px;
+  color: #586579;
+  font-size: 14px;
   line-height: 1.6;
 }
