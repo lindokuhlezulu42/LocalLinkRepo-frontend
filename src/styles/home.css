@@ -157,7 +157,7 @@
 }
 
 .hero-area input::placeholder {
-  color: #8d96a5;
+  color: #000;
 }
 
 .search-button {
@@ -303,7 +303,7 @@
 
 .category-card-copy > span {
   overflow: hidden;
-  color: var(--muted);
+  color: #000;
   font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -384,7 +384,7 @@
   align-items: center;
   gap: 6px;
   margin: 0 0 13px;
-  color: #788294;
+  color: #000;
   font-size: 12px;
 }
 
@@ -396,7 +396,7 @@
   display: -webkit-box;
   overflow: hidden;
   margin: 0 0 19px;
-  color: #6d7788;
+  color: #000;
   font-size: 12px;
   line-height: 1.65;
   -webkit-box-orient: vertical;

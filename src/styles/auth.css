@@ -46,7 +46,7 @@
 
 .auth-subtitle {
   margin: 8px 0 24px;
-  color: #778193;
+  color: #000;
   font-size: 12px;
   line-height: 1.6;
 }
@@ -57,14 +57,14 @@
 
 .auth-switch {
   margin: 20px 0 0;
-  color: #778193;
+  color: #000;
   font-size: 11px;
   text-align: center;
 }
 
 .auth-switch a,
 .forgot-link {
-  color: #5146e5;
+  color: #000;
   font-weight: 700;
 }
 
@@ -128,7 +128,7 @@
 }
 
 .role-option span {
-  color: #828c9d;
+  color: #000;
   font-size: 9px;
   line-height: 1.4;
 }

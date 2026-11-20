@@ -54,7 +54,7 @@
 .footer-about p {
   max-width: 310px;
   margin: 0;
-  color: #7a8494;
+  color: #000;
   font-size: 12px;
   line-height: 1.7;
 }
@@ -75,7 +75,7 @@
 }
 
 .footer-main > div > a:not(.brand) {
-  color: #758093;
+  color: #000;
   font-size: 12px;
 }
 
@@ -89,7 +89,7 @@
   gap: 24px;
   padding: 19px 0;
   border-top: 1px solid #edf0f4;
-  color: #929aaa;
+  color: #000;
   font-size: 11px;
 }
 

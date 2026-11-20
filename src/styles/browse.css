@@ -62,7 +62,7 @@
 
 .area-input input::placeholder,
 .search-results input::placeholder {
-  color: #8b95a5;
+  color: #000;
 }
 
 .area-input button {
@@ -95,7 +95,7 @@
   flex: 0 0 auto;
   align-items: center;
   gap: 7px;
-  color: #727d90;
+  color: #000;
   font-size: 12px;
 }
 
@@ -152,7 +152,7 @@
 
 .results-topline p {
   margin: 0;
-  color: #818b9b;
+  color: #000;
   font-size: 13px;
 }
 
