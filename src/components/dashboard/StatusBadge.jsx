@@ -11,6 +11,16 @@ export function StatusBadge({ status }) {
             ? 'Unread'
               : status === 'changes-review'
                 ? 'Changes in review'
-                : 'New'
+                        : status === 'accepted'
+                          ? 'Accepted'
+                          : status === 'in_progress'
+                            ? 'In progress'
+                            : status === 'completed'
+                              ? 'Completed'
+                              : status === 'confirmed'
+                                ? 'Confirmed'
+                                : status === 'declined'
+                                  ? 'Declined'
+                                  : 'New'
   return <span className={`status-badge status-${status}`}>{label}</span>
 }

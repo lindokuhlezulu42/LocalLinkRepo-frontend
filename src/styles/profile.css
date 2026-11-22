@@ -72,7 +72,7 @@
 
 .profile-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 13px;
   margin-top: 28px;
 }
@@ -101,6 +101,157 @@
 
 .about-card {
   margin-top: 17px;
+}
+
+.availability-card,
+.reviews-card {
+  margin-top: 17px;
+}
+
+.availability-heading,
+.reviews-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.availability-heading .eyebrow,
+.reviews-heading .eyebrow {
+  margin: 0 0 5px;
+  color: #5146c8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.availability-heading h2,
+.reviews-heading h2 {
+  margin-bottom: 5px;
+}
+
+.availability-heading p:last-child {
+  margin: 0;
+  color: #586579;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.availability-heading > svg {
+  color: #5146e5;
+}
+
+.booking-request-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.slot-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.appointment-slot {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e1e5ed;
+  border-radius: 12px;
+  color: #59667a;
+  background: #fff;
+  cursor: pointer;
+}
+
+.appointment-slot.selected {
+  border-color: #928afa;
+  color: #5146e5;
+  background: #f7f6ff;
+  box-shadow: 0 0 0 3px rgba(81, 70, 229, 0.08);
+}
+
+.appointment-slot input {
+  accent-color: #5146e5;
+}
+
+.appointment-slot > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.appointment-slot strong {
+  color: #202b40;
+  font-size: 12px;
+}
+
+.appointment-slot small {
+  color: #59667a;
+  font-size: 11px;
+}
+
+.reviews-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #5146e5;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.reviews-summary svg,
+.public-review-stars .filled {
+  color: #5146e5;
+}
+
+.reviews-summary span {
+  color: #59667a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.review-list {
+  margin-top: 12px;
+}
+
+.public-review {
+  padding: 16px 0;
+  border-top: 1px solid #edf0f4;
+}
+
+.public-review-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.public-review-heading strong {
+  color: #202b40;
+  font-size: 13px;
+}
+
+.public-review-heading span {
+  color: #59667a;
+  font-size: 11px;
+}
+
+.public-review-stars {
+  display: flex;
+  gap: 3px;
+  margin-top: 7px;
+  color: #d7dbe5;
+}
+
+.public-review p {
+  margin: 9px 0 0;
+  color: #4f5c70;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .profile-card h2,

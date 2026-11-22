@@ -117,7 +117,7 @@ function App() {
     page = <BrowsePage key={location.search} params={params} navigate={navigate} />
   } else if (providerId) {
     page = selectedProvider
-      ? <ProfilePage provider={selectedProvider} navigate={navigate} notify={setToast} />
+      ? <ProfilePage provider={selectedProvider} user={user} navigate={navigate} notify={setToast} />
       : <NotFoundPage navigate={navigate} />
   } else if (path === '/register' || path === '/login') {
     page = <AuthPage mode={path === '/register' ? 'register' : 'login'} onAuthenticated={setUser} navigate={navigate} notify={setToast} />
@@ -135,8 +135,8 @@ function App() {
         refreshProviders={refreshProviders}
       />
     )
-  } else if (path === '/admin') {
-    page = <AdminPage user={user} navigate={navigate} notify={setToast} refreshProviders={refreshProviders} />
+  } else if (path === '/admin' || path.startsWith('/admin/')) {
+    page = <AdminPage user={user} navigate={navigate} notify={setToast} onSignOut={signOut} refreshProviders={refreshProviders} />
   } else if (path === '/') {
     page = <HomePage providers={providers} navigate={navigate} />
   } else {

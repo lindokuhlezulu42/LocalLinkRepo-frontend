@@ -233,6 +233,18 @@
     grid-template-columns: 1fr;
   }
 
+  .profile-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .slot-options {
+    grid-template-columns: 1fr;
+  }
+
+  .availability-form {
+    grid-template-columns: 1fr;
+  }
+
   .dashboard-page {
     padding: 24px 18px 50px;
   }
@@ -242,7 +254,19 @@
   }
 
   .dashboard-sidebar {
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  .sidebar-sticky {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
     padding: 14px;
+    border: 1px solid #e7eaf0;
+    border-radius: 18px;
+    background: #fff;
   }
 
   .dashboard-person {
@@ -272,6 +296,15 @@
 
   .dashboard-lower-grid {
     grid-template-columns: 1fr;
+  }
+
+  .review-form,
+  .review-submitted {
+    margin-left: 0;
+  }
+
+  .availability-item {
+    flex-wrap: wrap;
   }
 
   .admin-page {

@@ -1,6 +1,6 @@
 # LocalLink frontend
 
-React frontend for the LocalLink community services directory. Residents can browse local providers, view profiles, and submit enquiries. Providers can manage listings and enquiries.
+React frontend for the LocalLink community services directory. Residents can browse local providers, view profiles, submit enquiries, request appointments, and review completed services. Providers can manage listings and enquiries, publish appointment availability, and respond to booking requests.
 
 ## Source structure
 

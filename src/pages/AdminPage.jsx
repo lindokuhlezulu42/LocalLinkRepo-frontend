@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Mail, Phone, X, Check, Search } from '../icons.js'
+import { Mail, Phone, Check, Search, LayoutDashboard, MessageCircle, ShieldCheck, LogOut } from '../icons.js'
 import { CATEGORIES } from '../data/categories.js'
 import { CategoryIcon } from '../components/common/CategoryIcon.jsx'
+import { AppLink } from '../components/common/AppLink.jsx'
 import { DashboardHeading } from '../components/dashboard/DashboardHeading.jsx'
 import { ConfirmationDialog } from '../components/common/ConfirmationDialog.jsx'
 import { EnquiryItem } from '../components/dashboard/EnquiryItem.jsx'
 import { StatusBadge } from '../components/dashboard/StatusBadge.jsx'
 import { apiDelete, apiGet, apiPatch } from '../lib/api.js'
 
-export function AdminPage({ user, navigate, notify, refreshProviders }) {
+export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders }) {
   const [listings, setListings] = useState([])
   const [enquiries, setEnquiries] = useState([])
-  const [section, setSection] = useState('listings')
   const [listingFilter, setListingFilter] = useState('all')
   const [listingSearch, setListingSearch] = useState('')
   const [changeRejectionReasons, setChangeRejectionReasons] = useState({})
@@ -22,6 +22,7 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
   const [deletingEnquiryId, setDeletingEnquiryId] = useState('')
   const [confirmation, setConfirmation] = useState(null)
   const adminLoadVersion = useRef(0)
+  const section = window.location.pathname.endsWith('/enquiries') ? 'enquiries' : 'listings'
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
@@ -141,16 +142,10 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
   if (loading) return <main className="page-loading"><span className="spinner" /> Loading admin dashboard…</main>
 
   const pendingCount = listings.filter((listing) => listing.status === 'pending').length
-  const resubmittedCount = listings.filter((listing) => listing.changesResubmitted).length
-  const deletionRequestCount = listings.filter((listing) => listing.deletionRequested).length
   const unreadEnquiryCount = enquiries.filter((enquiry) => !enquiry.readByAdmin).length
   const statusFilteredListings = listingFilter === 'all'
     ? listings
-    : listingFilter === 'deletion_requested'
-      ? listings.filter((listing) => listing.deletionRequested)
-      : listingFilter === 'changes_resubmitted'
-        ? listings.filter((listing) => listing.changesResubmitted)
-      : listings.filter((listing) => listing.status === listingFilter)
+    : listings.filter((listing) => listing.status === listingFilter)
   const searchTerm = listingSearch.trim().toLowerCase()
   const visibleListings = searchTerm
     ? statusFilteredListings.filter((listing) => [
@@ -168,34 +163,6 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
         ...(listing.services || []),
       ].some((value) => value?.toLowerCase().includes(searchTerm)))
     : statusFilteredListings
-
-  const deleteListing = async (provider) => {
-    adminLoadVersion.current += 1
-    setUpdatingId(provider.id)
-    setError('')
-    try {
-      await apiDelete(`/api/admin/providers/${provider.id}`)
-      adminLoadVersion.current += 1
-      setListings((current) => current.filter((listing) => listing.id !== provider.id))
-      setEnquiries((current) => current.filter((enquiry) => enquiry.providerId !== provider.id))
-      await refreshProviders()
-      notify('Listing and its related enquiries permanently deleted.')
-      return true
-    } catch (requestError) {
-      setError(requestError.message)
-      return false
-    } finally {
-      setUpdatingId('')
-    }
-  }
-
-  const confirmDeleteListing = (provider) => setConfirmation({
-    title: 'Permanently delete this listing?',
-    message: `Delete "${provider.name}" and all enquiries linked to it? This action cannot be undone.`,
-    confirmLabel: 'Delete listing',
-    danger: true,
-    onConfirm: () => deleteListing(provider),
-  })
 
   const toggleEnquiryRead = async (enquiry) => {
     adminLoadVersion.current += 1
@@ -254,7 +221,25 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
           onClose={() => setConfirmation(null)}
         />
       )}
-      <div className="admin-wrap">
+      <div className="dashboard-layout admin-layout">
+        <aside className="dashboard-sidebar">
+          <div className="sidebar-sticky">
+          <div className="dashboard-person">
+            <span className="avatar">{user.name?.slice(0, 1).toUpperCase() || 'U'}</span>
+            <div><strong>{user.name}</strong><span>Administrator account</span></div>
+          </div>
+          <p className="sidebar-label">Workspace</p>
+          <nav className="dashboard-nav" aria-label="Admin dashboard">
+            <AppLink to="/dashboard" navigate={navigate}><LayoutDashboard size={17} /> Overview</AppLink>
+            <AppLink to="/admin/listings" navigate={navigate} className={section === 'listings' ? 'active' : ''}><ShieldCheck size={17} /> Review listings <span className="nav-count">{pendingCount}</span></AppLink>
+            <AppLink to="/admin/enquiries" navigate={navigate} className={section === 'enquiries' ? 'active' : ''}><MessageCircle size={17} /> Manage enquiries <span className="nav-count">{unreadEnquiryCount}</span></AppLink>
+          </nav>
+          <button type="button" className="dashboard-signout" onClick={onSignOut}><LogOut size={17} /> Sign out</button>
+          <p className="sidebar-demo-note">Administrator workspace<br />Only administrators can manage listings and enquiries</p>
+          </div>
+        </aside>
+        <section className="dashboard-content">
+        <div className="admin-wrap">
         <DashboardHeading
           eyebrow="LocalLink administration"
           title="Admin dashboard"
@@ -267,27 +252,23 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
         </div>
         {error && <div className="form-error" role="alert">{error}</div>}
         <div className="admin-section-tabs" role="tablist" aria-label="Admin dashboard sections">
-          <button type="button" role="tab" aria-selected={section === 'listings'} className={section === 'listings' ? 'active' : ''} onClick={() => setSection('listings')}>
+          <button type="button" role="tab" aria-selected={section === 'listings'} className={section === 'listings' ? 'active' : ''} onClick={() => navigate('/admin/listings')}>
             Provider listings <span>{listings.length}</span>
           </button>
-          <button type="button" role="tab" aria-selected={section === 'enquiries'} className={section === 'enquiries' ? 'active' : ''} onClick={() => setSection('enquiries')}>
+          <button type="button" role="tab" aria-selected={section === 'enquiries'} className={section === 'enquiries' ? 'active' : ''} onClick={() => navigate('/admin/enquiries')}>
             Enquiries <span>{enquiries.length}</span>
           </button>
         </div>
         {section === 'listings' ? (
           <>
             <div className="status-tabs admin-status-tabs">
-              {['all', 'pending', 'changes_resubmitted', 'approved', 'rejected', 'deletion_requested'].map((status) => {
+              {['all', 'pending', 'approved', 'rejected'].map((status) => {
                 const count = status === 'all'
                   ? listings.length
-                  : status === 'deletion_requested'
-                    ? deletionRequestCount
-                    : status === 'changes_resubmitted'
-                      ? resubmittedCount
-                    : listings.filter((listing) => listing.status === status).length
+                  : listings.filter((listing) => listing.status === status).length
                 return (
                   <button key={status} type="button" className={listingFilter === status ? 'active' : ''} onClick={() => setListingFilter(status)}>
-                    {status === 'all' ? 'All' : status === 'deletion_requested' ? 'Removal requests' : status === 'changes_resubmitted' ? 'Changes to approve' : status[0].toUpperCase() + status.slice(1)} ({count})
+                    {status === 'all' ? 'All' : status[0].toUpperCase() + status.slice(1)} ({count})
                   </button>
                 )
               })}
@@ -323,8 +304,7 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
                     {provider.changesResubmitted && <p className="resubmitted-notice">Proposed listing changes. The currently approved version remains public until these are approved.</p>}
                     <p>{review.description}</p>
                     <div className="review-details"><span><Phone size={15} /> {review.phone}</span><span><Mail size={15} /> {review.email}</span><span>{review.price || 'Quotes on request'}</span><span>{review.experience || 'Experience not specified'}</span><span>Services: {review.services?.join(', ') || 'Not specified'}</span><span>Submitted {new Date(provider.createdAt).toLocaleDateString()}</span></div>
-                    {provider.status === 'rejected' && <p className="deletion-request-notice">The provider requested changes. They can edit and resubmit this listing.</p>}
-                    {provider.deletionRequested && <p className="deletion-request-notice">The provider has requested permanent removal of this listing and its related enquiries.</p>}
+                    {provider.status === 'rejected' && <p className="provider-change-notice">The provider requested changes. They can edit and resubmit this listing.</p>}
                     {(provider.status === 'pending' || provider.changesResubmitted) && (
                       <div className="review-actions">
                         <button type="button" className="button button-primary" disabled={updatingId === provider.id} onClick={() => updateStatus(provider)}><Check size={16} /> {provider.changesResubmitted ? 'Approve changes' : 'Approve listing'}</button>
@@ -343,13 +323,6 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
                             </button>
                           </div>
                         )}
-                      </div>
-                    )}
-                    {provider.deletionRequested && (
-                      <div className="review-actions">
-                        <button type="button" className="button button-danger" disabled={updatingId === provider.id} onClick={() => confirmDeleteListing(provider)}>
-                          <X size={16} /> {updatingId === provider.id ? 'Deleting…' : 'Approve permanent deletion'}
-                        </button>
                       </div>
                     )}
                   </article>
@@ -379,6 +352,8 @@ export function AdminPage({ user, navigate, notify, refreshProviders }) {
             )}
           </>
         )}
+        </div>
+        </section>
       </div>
     </main>
   )

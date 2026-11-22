@@ -419,6 +419,26 @@
   font-weight: 700;
 }
 
+.provider-rating-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  color: #5b5d77;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.provider-rating-line strong {
+  color: #5146e5;
+  font-size: 13px;
+}
+
+.provider-rating-line svg.filled {
+  color: #5146e5;
+  fill: #5146e5;
+}
+
 .view-profile {
   display: inline-flex;
   align-items: center;

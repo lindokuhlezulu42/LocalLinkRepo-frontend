@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ArrowRight, BriefcaseBusiness, Clock3, LayoutDashboard, LogOut, MessageCircle, Plus, ShieldCheck } from '../icons.js'
+import { ArrowRight, BriefcaseBusiness, CalendarDays, Clock3, LayoutDashboard, LogOut, MessageCircle, Plus, ShieldCheck } from '../icons.js'
 import { AppLink } from '../components/common/AppLink.jsx'
 import { ConfirmationDialog } from '../components/common/ConfirmationDialog.jsx'
 import { apiDelete, apiGet, apiPatch } from '../lib/api.js'
@@ -9,6 +9,9 @@ import { DashboardListing } from '../components/dashboard/DashboardListing.jsx'
 import { EnquiryItem } from '../components/dashboard/EnquiryItem.jsx'
 import { EmptyDashboard } from '../components/dashboard/EmptyDashboard.jsx'
 import { ListingForm } from '../components/dashboard/ListingForm.jsx'
+import { AvailabilityManager } from '../components/dashboard/AvailabilityManager.jsx'
+import { BookingCenter } from '../components/dashboard/BookingCenter.jsx'
+import { ReviewForm } from '../components/dashboard/ReviewForm.jsx'
 
 export function DashboardPage({ user, navigate, notify, onSignOut, refreshProviders }) {
   const [listingFilter, setListingFilter] = useState('all')
@@ -19,9 +22,10 @@ export function DashboardPage({ user, navigate, notify, onSignOut, refreshProvid
   const [error, setError] = useState('')
   const [enquiryError, setEnquiryError] = useState('')
   const [hidingEnquiryId, setHidingEnquiryId] = useState('')
-  const [listingDeletionId, setListingDeletionId] = useState('')
+  const [deletingListingId, setDeletingListingId] = useState('')
   const [listingActionError, setListingActionError] = useState('')
   const [confirmation, setConfirmation] = useState(null)
+  const [updatingEnquiryId, setUpdatingEnquiryId] = useState('')
 
   useEffect(() => {
     if (!user) navigate('/login')
@@ -68,40 +72,65 @@ export function DashboardPage({ user, navigate, notify, onSignOut, refreshProvid
     }
   }
 
-  const saveListingDeletionRequest = async (provider, requested) => {
-    setListingDeletionId(provider.id)
+  const hideMyEnquiry = async (id) => {
+    setHidingEnquiryId(id)
+    setEnquiryError('')
+    try {
+      await apiDelete(`/api/enquiries/mine/${id}`)
+      setMyEnquiries((current) => current.filter((enquiry) => enquiry.id !== id))
+      notify('Enquiry hidden from your dashboard.')
+    } catch (requestError) {
+      setEnquiryError(requestError.message)
+    } finally {
+      setHidingEnquiryId('')
+    }
+  }
+
+  const updateEnquiryStatus = async (enquiry, status) => {
+    setUpdatingEnquiryId(enquiry.id)
+    setEnquiryError('')
+    try {
+      const updated = await apiPatch(`/api/enquiries/${enquiry.id}/status`, { status })
+      setMyEnquiries((current) => current.map((item) => item.id === enquiry.id ? updated : item))
+      notify(`Enquiry marked ${status.replace('_', ' ')}.`)
+    } catch (requestError) {
+      setEnquiryError(requestError.message)
+    } finally {
+      setUpdatingEnquiryId('')
+    }
+  }
+
+  const deleteProviderListing = async (provider) => {
+    setDeletingListingId(provider.id)
     setListingActionError('')
     try {
-      const updatedListing = await apiPatch(`/api/providers/${provider.id}/deletion-request`, { requested })
-      setMyProviders((current) => current.map((item) => item.id === provider.id ? updatedListing : item))
-      notify(requested ? 'Removal request sent to an administrator.' : 'Removal request cancelled.')
+      await apiDelete(`/api/providers/${provider.id}`)
+      setMyProviders((current) => current.filter((item) => item.id !== provider.id))
+      setMyEnquiries((current) => current.filter((item) => item.providerId !== provider.id))
+      await refreshProviders()
+      notify('Listing and its related enquiries permanently deleted.')
       return true
     } catch (requestError) {
       setListingActionError(requestError.message)
       return false
     } finally {
-      setListingDeletionId('')
+      setDeletingListingId('')
     }
   }
 
-  const requestListingDeletion = (provider) => {
-    const requested = !provider.deletionRequested
-    if (!requested) {
-      void saveListingDeletionRequest(provider, false)
-      return
-    }
+  const confirmDeleteListing = (provider) => {
     setConfirmation({
-      title: 'Request listing removal?',
-      message: `Ask an administrator to remove "${provider.name}"? If approved, the listing and its related enquiries will be permanently deleted.`,
-      confirmLabel: 'Send removal request',
+      title: 'Permanently delete this listing?',
+      message: `Delete "${provider.name}" and all enquiries linked to it? This action cannot be undone.`,
+      confirmLabel: 'Delete listing',
       danger: true,
-      onConfirm: () => saveListingDeletionRequest(provider, true),
+      onConfirm: () => deleteProviderListing(provider),
     })
   }
 
   if (!user) return <main className="page-loading"><span className="spinner" /> Taking you to sign in…</main>
   const path = window.location.pathname
-  const activeSection = path.endsWith('/enquiries') ? 'enquiries' : path.includes('/listings') ? 'listings' : 'overview'
+  const activeSection = path.endsWith('/enquiries') ? 'enquiries' : path.endsWith('/availability') ? 'availability' : path.endsWith('/bookings') ? 'bookings' : path.includes('/listings') ? 'listings' : 'overview'
   const editMatch = path.match(/^\/dashboard\/listings\/([^/]+)\/edit$/)
   const editingListing = editMatch
     ? myProviders.find((provider) => provider.id === editMatch[1]
@@ -123,6 +152,7 @@ export function DashboardPage({ user, navigate, notify, onSignOut, refreshProvid
       )}
       <div className="dashboard-layout">
         <aside className="dashboard-sidebar">
+          <div className="sidebar-sticky">
           <div className="dashboard-person">
             <span className="avatar">{user.name?.slice(0, 1).toUpperCase() || 'U'}</span>
             <div><strong>{user.name}</strong><span>{user.role === 'provider' ? 'Service provider' : user.role === 'admin' ? 'Administrator account' : 'Resident account'}</span></div>
@@ -131,12 +161,15 @@ export function DashboardPage({ user, navigate, notify, onSignOut, refreshProvid
           <nav className="dashboard-nav" aria-label="Dashboard">
             <AppLink to="/dashboard" navigate={navigate} className={activeSection === 'overview' ? 'active' : ''}><LayoutDashboard size={17} /> Overview</AppLink>
             {user.role === 'provider' && <AppLink to="/dashboard/listings" navigate={navigate} className={activeSection === 'listings' ? 'active' : ''}><BriefcaseBusiness size={17} /> My listings</AppLink>}
-            <AppLink to={user.role === 'admin' ? '/admin' : '/dashboard/enquiries'} navigate={navigate} className={activeSection === 'enquiries' ? 'active' : ''}><MessageCircle size={17} /> {user.role === 'admin' ? 'Manage enquiries' : 'Enquiries'} <span className="nav-count">{myEnquiries.filter((item) => item.status === 'new').length}</span></AppLink>
+            <AppLink to={user.role === 'admin' ? '/admin/enquiries' : '/dashboard/enquiries'} navigate={navigate} className={activeSection === 'enquiries' ? 'active' : ''}><MessageCircle size={17} /> {user.role === 'admin' ? 'Manage enquiries' : 'Enquiries'} <span className="nav-count">{myEnquiries.filter((item) => item.status === 'new').length}</span></AppLink>
+            {user.role === 'provider' && <AppLink to="/dashboard/availability" navigate={navigate} className={activeSection === 'availability' ? 'active' : ''}><CalendarDays size={17} /> Availability</AppLink>}
+            {(user.role === 'provider' || user.role === 'resident') && <AppLink to="/dashboard/bookings" navigate={navigate} className={activeSection === 'bookings' ? 'active' : ''}><CalendarDays size={17} /> Bookings</AppLink>}
             {user.role === 'provider' && <AppLink to="/dashboard/listings/new" navigate={navigate}><Plus size={17} /> Add a listing</AppLink>}
-            {user.role === 'admin' && <AppLink to="/admin" navigate={navigate}><ShieldCheck size={17} /> Review listings</AppLink>}
+            {user.role === 'admin' && <AppLink to="/admin/listings" navigate={navigate}><ShieldCheck size={17} /> Review listings</AppLink>}
           </nav>
           <button type="button" className="dashboard-signout" onClick={onSignOut}><LogOut size={17} /> Sign out</button>
           <p className="sidebar-demo-note">Private account workspace<br />Account data is saved on the server</p>
+          </div>
         </aside>
         <section className="dashboard-content">
           {path.endsWith('/listings/new') ? (
@@ -161,13 +194,28 @@ export function DashboardPage({ user, navigate, notify, onSignOut, refreshProvid
               </div>
               {error && <div className="form-error" role="alert">{error}</div>}
               {listingActionError && <div className="form-error" role="alert">{listingActionError}</div>}
-              {matchingListings.length ? <div className="dashboard-list">{matchingListings.map((provider) => <DashboardListing key={provider.id} provider={{ ...provider, deletionRequestSubmitting: listingDeletionId === provider.id }} navigate={navigate} onRequestDeletion={requestListingDeletion} />)}</div> : <EmptyDashboard title="No listings yet" text="Add a service to let people nearby discover your work." action={<AppLink to="/dashboard/listings/new" navigate={navigate} className="button button-primary"><Plus size={16} /> Create a listing</AppLink>} />}
+              {matchingListings.length ? <div className="dashboard-list">{matchingListings.map((provider) => <DashboardListing key={provider.id} provider={{ ...provider, deleteSubmitting: deletingListingId === provider.id }} navigate={navigate} canEdit={user.role === 'provider'} onDeleteListing={confirmDeleteListing} />)}</div> : <EmptyDashboard title="No listings yet" text="Add a service to let people nearby discover your work." action={<AppLink to="/dashboard/listings/new" navigate={navigate} className="button button-primary"><Plus size={16} /> Create a listing</AppLink>} />}
             </div>
+          ) : activeSection === 'availability' && user.role === 'provider' ? (
+            <AvailabilityManager providers={myProviders} notify={notify} />
+          ) : activeSection === 'bookings' && (user.role === 'provider' || user.role === 'resident') ? (
+            <BookingCenter user={user} notify={notify} />
           ) : activeSection === 'enquiries' ? (
             <div>
               <DashboardHeading eyebrow="Messages" title={user.role === 'admin' ? 'All enquiries' : 'Enquiries'} text={user.role === 'provider' ? 'Messages from people looking for your services.' : user.role === 'admin' ? 'System-wide enquiries sent to LocalLink providers.' : 'The quote requests you have sent to local providers.'} />
               {enquiryError && <div className="form-error" role="alert">{enquiryError}</div>}
-              {myEnquiries.length ? <div className="enquiry-list">{myEnquiries.map((item) => <EnquiryItem key={item.id} enquiry={item} onHide={user.role === 'provider' && hidingEnquiryId !== item.id ? hideEnquiry : undefined} />)}</div> : <EmptyDashboard title="No enquiries yet" text={user.role === 'provider' ? 'When someone contacts you, their message will appear here.' : 'Browse services and ask a provider for a quote to see your enquiries here.'} action={user.role === 'resident' ? <AppLink to="/browse" navigate={navigate} className="button button-primary">Browse services <ArrowRight size={16} /></AppLink> : null} />}
+              {myEnquiries.length ? <div className="enquiry-list">{myEnquiries.map((item) => (
+                <div className="enquiry-with-review" key={item.id}>
+                  <EnquiryItem
+                    enquiry={item}
+                    onHide={user.role === 'provider' && hidingEnquiryId !== item.id ? hideEnquiry : undefined}
+                    onHideMine={user.role === 'resident' && hidingEnquiryId !== item.id ? hideMyEnquiry : undefined}
+                    onUpdateStatus={user.role === 'provider' ? (enquiry, status) => updateEnquiryStatus(enquiry, status) : undefined}
+                    statusUpdating={updatingEnquiryId === item.id}
+                  />
+                  {user.role === 'resident' && item.status === 'completed' && <ReviewForm enquiry={item} onSubmitted={(id) => setMyEnquiries((current) => current.map((enquiry) => enquiry.id === id ? { ...enquiry, reviewed: true } : enquiry))} />}
+                </div>
+              ))}</div> : <EmptyDashboard title="No enquiries yet" text={user.role === 'provider' ? 'When someone contacts you, their message will appear here.' : 'Browse services and ask a provider for a quote to see your enquiries here.'} action={user.role === 'resident' ? <AppLink to="/browse" navigate={navigate} className="button button-primary">Browse services <ArrowRight size={16} /></AppLink> : null} />}
             </div>
           ) : user.role === 'admin' ? (
             <div>

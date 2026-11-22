@@ -1,11 +1,15 @@
 .admin-page {
   min-height: 70vh;
   padding: 56px 32px 76px;
+  background: #f7f8fb;
+}
+
+.admin-layout {
+  align-items: start;
 }
 
 .admin-wrap {
-  width: min(1080px, 100%);
-  margin: 0 auto;
+  width: 100%;
 }
 
 .admin-overview-stats {
