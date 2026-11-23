@@ -5,6 +5,7 @@ import { CategoryIcon } from '../components/common/CategoryIcon.jsx'
 import { AppLink } from '../components/common/AppLink.jsx'
 import { DashboardHeading } from '../components/dashboard/DashboardHeading.jsx'
 import { ConfirmationDialog } from '../components/common/ConfirmationDialog.jsx'
+import { ReasonDialog } from '../components/common/ReasonDialog.jsx'
 import { EnquiryItem } from '../components/dashboard/EnquiryItem.jsx'
 import { StatusBadge } from '../components/dashboard/StatusBadge.jsx'
 import { apiDelete, apiGet, apiPatch } from '../lib/api.js'
@@ -22,6 +23,7 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
   const [readUpdatingId, setReadUpdatingId] = useState('')
   const [deletingEnquiryId, setDeletingEnquiryId] = useState('')
   const [confirmation, setConfirmation] = useState(null)
+  const [rejectingProvider, setRejectingProvider] = useState(null)
   const adminLoadVersion = useRef(0)
   const section = window.location.pathname.endsWith('/enquiries') ? 'enquiries' : 'listings'
 
@@ -141,10 +143,7 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
 
   const rejectListing = async (provider, reason) => {
     const trimmed = (reason || '').trim()
-    if (!trimmed) {
-      setError('Enter a reason before rejecting this listing.')
-      return
-    }
+    if (!trimmed) return { error: 'Enter a reason before rejecting this listing.' }
     adminLoadVersion.current += 1
     setUpdatingId(provider.id)
     setError('')
@@ -152,8 +151,10 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
       await apiPatch(`/api/admin/providers/${provider.id}/reject`, { reason: trimmed })
       await loadAdminData()
       notify('Listing rejected. The provider can edit it and resubmit for review.')
+      return null
     } catch (requestError) {
-      setError(requestError.message)
+      // Shown inside the dialog, which stays open so the admin can retry.
+      return { error: requestError.message }
     } finally {
       setUpdatingId('')
     }
@@ -259,6 +260,19 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
           onClose={() => setConfirmation(null)}
         />
       )}
+      {rejectingProvider && (
+        <ReasonDialog
+          title={`Reject “${rejectingProvider.name}”?`}
+          message="The listing stays hidden from residents. The provider will see your reason, can edit the listing, and resubmit it for review."
+          label="Reason for rejection"
+          placeholder="For example: the phone number is incomplete and the description doesn't say which areas you serve."
+          hint="Be specific so the provider knows exactly what to fix."
+          confirmLabel="Reject listing"
+          danger
+          onConfirm={(reason) => rejectListing(rejectingProvider, reason)}
+          onClose={() => setRejectingProvider(null)}
+        />
+      )}
       <div className="dashboard-layout admin-layout">
         <aside className="dashboard-sidebar">
           <div className="sidebar-sticky">
@@ -351,10 +365,7 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
                             type="button"
                             className="button button-secondary"
                             disabled={updatingId === provider.id}
-                            onClick={() => {
-                              const reason = window.prompt(`Reason for rejecting ${provider.name} (sent to the provider):`)
-                              if (reason && reason.trim()) rejectListing(provider, reason)
-                            }}
+                            onClick={() => setRejectingProvider(provider)}
                           >
                             <X size={16} /> Reject listing
                           </button>

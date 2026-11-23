@@ -615,6 +615,102 @@
   opacity: .65;
 }
 
+/* Reason dialog: confirmation dialog with a required text field */
+.reason-dialog {
+  width: min(480px, 100%);
+}
+
+.confirmation-dialog.reason-dialog > p:not(.eyebrow) {
+  margin-bottom: 20px;
+}
+
+.reason-field {
+  margin-bottom: 24px;
+}
+
+.reason-field-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.reason-field label {
+  color: #303a4d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.reason-field label span {
+  color: #b84250;
+}
+
+.reason-count {
+  color: #8a93a3;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.reason-count.at-limit {
+  color: #b84250;
+  font-weight: 700;
+}
+
+.reason-field textarea {
+  display: block;
+  width: 100%;
+  min-height: 112px;
+  resize: vertical;
+  padding: 12px 14px;
+  border: 1px solid #e2e6ee;
+  border-radius: 12px;
+  color: #303a4d;
+  background: #fbfbfe;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.55;
+  transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+.reason-field textarea::placeholder {
+  color: #9aa2b1;
+}
+
+.reason-field textarea:focus {
+  border-color: #5146e5;
+  outline: none;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(81 70 229 / 12%);
+}
+
+.reason-field.has-error textarea {
+  border-color: #b84250;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(184 66 80 / 10%);
+}
+
+.reason-field textarea:disabled {
+  cursor: wait;
+  opacity: .7;
+}
+
+.reason-hint,
+.reason-error {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.reason-hint {
+  color: #737d8e;
+}
+
+.reason-error {
+  color: #b84250;
+  font-weight: 650;
+}
+
 @keyframes confirmation-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
