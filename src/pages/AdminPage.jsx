@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Mail, Phone, Check, Search, LayoutDashboard, MessageCircle, ShieldCheck, LogOut } from '../icons.js'
+import { Mail, Phone, Check, X, Search, LayoutDashboard, MessageCircle, ShieldCheck, LogOut } from '../icons.js'
 import { CATEGORIES } from '../data/categories.js'
 import { CategoryIcon } from '../components/common/CategoryIcon.jsx'
 import { AppLink } from '../components/common/AppLink.jsx'
@@ -12,6 +12,7 @@ import { apiDelete, apiGet, apiPatch } from '../lib/api.js'
 export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders }) {
   const [listings, setListings] = useState([])
   const [enquiries, setEnquiries] = useState([])
+
   const [listingFilter, setListingFilter] = useState('all')
   const [listingSearch, setListingSearch] = useState('')
   const [changeRejectionReasons, setChangeRejectionReasons] = useState({})
@@ -135,6 +136,43 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
       setError(requestError.message)
     } finally {
       setUpdatingId('')
+    }
+  }
+
+  const rejectListing = async (provider, reason) => {
+    const trimmed = (reason || '').trim()
+    if (!trimmed) {
+      setError('Enter a reason before rejecting this listing.')
+      return
+    }
+    adminLoadVersion.current += 1
+    setUpdatingId(provider.id)
+    setError('')
+    try {
+      await apiPatch(`/api/admin/providers/${provider.id}/reject`, { reason: trimmed })
+      await loadAdminData()
+      notify('Listing rejected. The provider can edit it and resubmit for review.')
+    } catch (requestError) {
+      setError(requestError.message)
+    } finally {
+      setUpdatingId('')
+    }
+  }
+
+  const hideEnquiry = async (enquiry) => {
+    adminLoadVersion.current += 1
+    setReadUpdatingId(enquiry.id)
+    setError('')
+    const previous = enquiries
+    setEnquiries((current) => current.filter((item) => item.id !== enquiry.id))
+    try {
+      await apiPatch(`/api/admin/enquiries/${enquiry.id}/hide`, {})
+      notify('Enquiry hidden from the admin dashboard. It stays available to the resident and provider.')
+    } catch (requestError) {
+      setEnquiries(previous)
+      setError(requestError.message)
+    } finally {
+      setReadUpdatingId('')
     }
   }
 
@@ -308,6 +346,19 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
                     {(provider.status === 'pending' || provider.changesResubmitted) && (
                       <div className="review-actions">
                         <button type="button" className="button button-primary" disabled={updatingId === provider.id} onClick={() => updateStatus(provider)}><Check size={16} /> {provider.changesResubmitted ? 'Approve changes' : 'Approve listing'}</button>
+                        {provider.status === 'pending' && !provider.changesResubmitted && (
+                          <button
+                            type="button"
+                            className="button button-secondary"
+                            disabled={updatingId === provider.id}
+                            onClick={() => {
+                              const reason = window.prompt(`Reason for rejecting ${provider.name} (sent to the provider):`)
+                              if (reason && reason.trim()) rejectListing(provider, reason)
+                            }}
+                          >
+                            <X size={16} /> Reject listing
+                          </button>
+                        )}
                         {provider.changesResubmitted && (
                           <div className="review-rejection">
                             <label className="sr-only" htmlFor={`reject-reason-${provider.id}`}>Reason for rejecting changes to {provider.name}</label>
@@ -343,6 +394,7 @@ export function AdminPage({ user, navigate, notify, onSignOut, refreshProviders 
                   enquiry={enquiry}
                   onToggleRead={toggleEnquiryRead}
                   onDelete={confirmDeleteEnquiry}
+                  onHideAdmin={hideEnquiry}
                   readUpdating={readUpdatingId === enquiry.id}
                   deleteUpdating={deletingEnquiryId === enquiry.id}
                 />)}

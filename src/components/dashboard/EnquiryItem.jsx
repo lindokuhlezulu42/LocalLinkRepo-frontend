@@ -6,6 +6,7 @@ export function EnquiryItem({
   compact = false,
   onHide,
   onHideMine,
+  onHideAdmin,
   onToggleRead,
   onDelete,
   onUpdateStatus,
@@ -48,6 +49,7 @@ export function EnquiryItem({
       )}
       {onHide && <button type="button" className="enquiry-hide-button" onClick={() => onHide(enquiry.id)} aria-label={`Hide enquiry from ${enquiry.name || 'resident'}`} title="Hide from your dashboard"><X size={15} /><span>Hide</span></button>}
       {onHideMine && <button type="button" className="enquiry-hide-button" onClick={() => onHideMine(enquiry.id)} aria-label={`Hide enquiry to ${enquiry.providerName || 'provider'}`} title="Hide from your dashboard"><X size={15} /><span>Hide</span></button>}
+      {onHideAdmin && <button type="button" className="enquiry-hide-button" onClick={() => onHideAdmin(enquiry)} disabled={readUpdating || deleteUpdating} aria-label={`Hide enquiry from ${enquiry.name || 'resident'}`} title="Hide from the admin dashboard"><X size={15} /><span>Hide</span></button>}
     </article>
   )
 }
