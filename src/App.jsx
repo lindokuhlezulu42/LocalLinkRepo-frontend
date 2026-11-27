@@ -10,6 +10,7 @@ import { ForgotPasswordPage } from './pages/ForgotPasswordPage.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage.jsx'
 import { ProfilePage } from './pages/ProfilePage.jsx'
+import { ResetPasswordPage } from './pages/ResetPasswordPage.jsx'
 import { VerifyEmailPage } from './pages/VerifyEmailPage.jsx'
 import { apiGet, apiPost, clearCsrfToken } from './lib/api.js'
 import './App.css'
@@ -123,6 +124,8 @@ function App() {
     page = <AuthPage mode={path === '/register' ? 'register' : 'login'} onAuthenticated={setUser} navigate={navigate} notify={setToast} />
   } else if (path === '/forgot-password') {
     page = <ForgotPasswordPage navigate={navigate} />
+  } else if (path === '/reset-password') {
+    page = <ResetPasswordPage key={location.search} navigate={navigate} />
   } else if (path === '/verify-email') {
     page = <VerifyEmailPage navigate={navigate} />
   } else if (path === '/dashboard' || path.startsWith('/dashboard/')) {
